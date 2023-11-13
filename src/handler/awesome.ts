@@ -14,7 +14,7 @@ async function asyncHandler<T>(func: () => Promise<T>, options?: AwesomeOptions)
     success = { data: await func(), error: null };
     return success;
   } catch (err) {
-    error = { data: null, error: options?.customError ? options.customError(err) : err };
+    error = { data: null, error: options?.customError ? options.customError(err as Error) : err as Error };
     return error;
   }
 }
@@ -35,7 +35,7 @@ function functionHandler<T>(func: () => T, options?: AwesomeOptions): ReturnAwes
     success = { data: func(), error: null };
     return success;
   } catch (err) {
-    error = { data: null, error: options?.customError ? options.customError(err) : err };
+    error = { data: null, error: options?.customError ? options.customError(err as Error) : err as Error };
     return error;
   }
 }
