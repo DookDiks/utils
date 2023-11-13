@@ -46,4 +46,3 @@ function functionHandler<T>(func: () => T, options?: AwesomeOptions): ReturnAwes
  * @type {{ async: asyncHandler, handler: functionHandler }}
  */
 export const awesome = { async: asyncHandler, handler: functionHandler };
-2
