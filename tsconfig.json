@@ -10,13 +10,13 @@
     "outDir": "dist",
     "rootDir": "./src",
     "typeRoots": [
-      "src/types",
+      "types",
       "./node_modules/@types"
     ]
   },
   "include": [
     "src/**/*.ts",
-    "src/types/**/*.d.ts"
+    "types/**/*.d.ts"
   ],
   "exclude": [
     "tests/**/*.ts"
