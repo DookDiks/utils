@@ -3,6 +3,7 @@
   "version": "1.0.3",
   "description": "utils function",
   "main": "dist/index.js",
+  "types": "types/index.d.ts",
   "scripts": {
     "start": "tsc && node dist/index.js",
     "release": "npm publish --access=public || echo 'version already published'",
