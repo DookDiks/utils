@@ -1,0 +1,25 @@
+{
+  "name": "@dookdiks/template",
+  "version": "1.0.0",
+  "description": "dookdiks npm package template",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "tsc && node dist/index.js",
+    "release": "npm publish || echo 'version already published'",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "template"
+  ],
+  "author": "dookdiks",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^29.5.8",
+    "jest": "^29.7.0",
+    "typescript": "^5.2.2"
+  }
+}
