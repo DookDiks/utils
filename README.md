@@ -38,7 +38,8 @@ In this example, the `cn` function merges the provided classes, ensuring proper 
 To use DukDik in your project, you can install it via npm:
 
 ```bash
-npm i @svacmai/dukdik
+npm i @dookdiks/utils
+
 ```
 
 ## Usage
