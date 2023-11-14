@@ -1,12 +1,8 @@
 import { awesome, awesomeInstant, type AwesomeOptions } from '../src';
 describe("test async awesome funtion", () => {
 
-  const options: AwesomeOptions = {
-    // customError: (err) => {
-    //   return { id: err.name, message: err.message }
-    // }
-  }
-
+  const options: AwesomeOptions = {}
+  
   const customAwesome = awesomeInstant(options)
 
   const asyncTestFunc = async () => {
