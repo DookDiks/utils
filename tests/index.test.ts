@@ -1,10 +1,11 @@
-// import { awesome } from '../src';
-// describe("test async awesome funtion", () => {
+import { awesome } from '../src';
+describe("test async awesome funtion", () => {
 
-//   const asyncTestFunc = async () => {
-//     return "Success"
-//   }
+  const asyncTestFunc = async () => {
+    return "Success"
+  }
 
-//   it("should return success", async () => {
-//   })
-// })
+  it("should return success", async () => {
+    expect(await awesome.async(asyncTestFunc)).toStrictEqual({ data: "Success", error: null })
+  })
+})
