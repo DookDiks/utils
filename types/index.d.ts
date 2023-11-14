@@ -2,7 +2,19 @@ type AwesomeOptions = {
   customError?: (err: Error) => Error;
 };
 
-type AwesomeSuccess<T> = { data: T; error: null };
-type AwesomeError<T = Error> = { data: null; error: T };
-type ReturnAsyncAwesome<T> = Promise<AwesomeSuccess<T> | AwesomeError>
-type ReturnAwesome<T> = AwesomeSuccess<T> | AwesomeError
+type AwesomeAsync = <T>(
+  func: () => Promise<T>,
+  options?: AwesomeOptions
+) => Promise<AwesomeResult<T>>;
+
+type AwesomeSync = <T>(
+  func: () => T,
+  options?: AwesomeOptions
+) => AwesomeResult<T>
+
+type AwesomeResult<T> = { data: T | null; error: Error | null };
+
+type AwesomeFunction = {
+  async: AwesomeAsync
+  sync: AwesomeSync
+};
