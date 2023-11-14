@@ -1,18 +1,18 @@
 /**
  * Represents a function type for customizing error handling in the Awesome library.
- * @typedef {function} CustomErrorOption
+ * @typedef {function} ErrorHandlerOption
  * @param {Error} err - The error to be customized.
  * @returns {Error} - The customized error.
  */
-export type CustomErrorOption = (err: Error) => Error;
+export type ErrorHandlerOption = (err: Error) => Error;
 
 /**
  * Represents the options that can be provided to customize the behavior of the Awesome library.
  * @typedef {Object} AwesomeOptions
- * @property {function(Error): Error} [customError] - A function to customize error handling.
+ * @property {function(Error): Error} [errorHandler] - A function to customize error handling.
  */
 export type AwesomeOptions = {
-  customError?: CustomErrorOption
+  errorHandler?: ErrorHandlerOption
 };
 
 /**
@@ -84,7 +84,7 @@ const awesomeInstant: AwesomeInstant = (defaultOptions) => {
       if (err instanceof Error) {
         return {
           data: null,
-          error: option?.customError ? option.customError(err) : err,
+          error: option?.errorHandler ? option.errorHandler(err) : err,
         };
       }
 
@@ -108,7 +108,7 @@ const awesomeInstant: AwesomeInstant = (defaultOptions) => {
       if (err instanceof Error) {
         return {
           data: null,
-          error: option?.customError ? option.customError(err) : err,
+          error: option?.errorHandler ? option.errorHandler(err) : err,
         };
       }
 
