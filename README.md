@@ -1,3 +1,4 @@
+
 # DukDik - Utils
 
 ## Overview
@@ -12,12 +13,12 @@ The `awesome` function is a versatile utility that simplifies error handling for
 
 The asynchronous variant, `awesome.async`, takes an asynchronous function and optional custom options. It executes the provided function, returning a Promise that resolves to an `AwesomeResult` object containing the operation's data and any potential errors.
 
-Example usage:
+**Example usage:**
 
 ```javascript
 const result = await awesome.async(async () => {
-	// Your asynchronous operation here
-	return someAsyncData;
+  // Your asynchronous operation here
+  return someAsyncData;
 });
 ```
 
@@ -25,44 +26,44 @@ const result = await awesome.async(async () => {
 
 The synchronous variant, `awesome.sync`, functions similarly to its asynchronous counterpart but works with synchronous operations. It takes a synchronous function and optional custom options, returning an `AwesomeResult` object with the operation's data and potential errors.
 
-Example usage:
+**Example usage:**
 
 ```javascript
 const result = awesome.sync(() => {
-	// Your synchronous operation here
-	return someSyncData;
+  // Your synchronous operation here
+  return someSyncData;
 });
 ```
 
 ### 1.3. Custom Error Handling
 
-The `AwesomeOptions` parameter allows you to specify a custom error handling function (`customError`). This function will be invoked in case of an error, giving you the ability to tailor error messages or perform specific actions.
+The `AwesomeOptions` parameter allows you to specify a custom error handling function (`errorHandler`). This function will be invoked in case of an error, giving you the ability to tailor error messages or perform specific actions.
 
-Example:
+**Example:**
 
 **javascript**
 
 ```javascript
 const customErrorHandler = (err) => {
-	// Your custom error handling logic here
-	return new Error(`Customized Error: ${err.message}`);
+  // Your custom error handling logic here
+  return new Error(`Customized Error: ${err.message}`);
 };
 
 const result = awesome.sync(() => someSyncOperation(), {
-	customError: customErrorHandler,
+  errorHandler: customErrorHandler,
 });
 ```
 
 **typescript**
 
 ```typescript
-const customErrorHandler: CustomErrorOption = (err) => {
-	// Your custom error handling logic here
-	return new Error(`Customized Error: ${err.message}`);
+const customErrorHandler: ErrorHandlerOption = (err) => {
+  // Your custom error handling logic here
+  return new Error(`Customized Error: ${err.message}`);
 };
 
 const result = awesome.sync(() => someSyncOperation(), {
-	customError: customErrorHandler,
+  errorHandler: customErrorHandler,
 });
 ```
 
@@ -74,7 +75,7 @@ To quickly create an instance of the Awesome library with optional default optio
 
 ```javascript
 const defaultOptions = { 
-  customError: customErrorHandler
+  errorHandler: customErrorHandler
 };
 const myAwesome = awesomeInstant(defaultOptions);
 
@@ -85,7 +86,7 @@ const myAwesome = awesomeInstant(defaultOptions);
 
 ```typescript
 const defaultOptions: AwesomeOptions = { 
-  customError: customErrorHandler
+  errorHandler: customErrorHandler
 };
 const myAwesome = awesomeInstant(defaultOptions);
 
@@ -96,7 +97,7 @@ const myAwesome = awesomeInstant(defaultOptions);
 
 The `cn` function is designed for working with Tailwind CSS classes, simplifying the creation of class strings, especially in React applications. It combines the `twMerge` and `clxs` functions, providing an easy way to handle dynamic class assignment.
 
-Example usage:
+**Example usage:**
 
 ```javascript
 const classes = cn("bg-blue-500", { "text-white": true }, "p-4");
@@ -111,7 +112,6 @@ To use DukDik in your project, you can install it via npm:
 
 ```bash
 npm i @dookdiks/utils
-
 ```
 
 Feel free to explore and integrate DukDik into your projects to simplify common tasks and enhance your codebase. If you encounter any issues or have suggestions for improvement, please don't hesitate to create an issue on our GitHub repository.
