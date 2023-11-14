@@ -1,4 +1,4 @@
-import { awesome } from "./handler/awesome"
+import { awesome, awesomeInstant } from "./handler/awesome"
 import { cn } from "./handler/cn"
 
-export { awesome, cn }
+export { awesome, awesomeInstant, cn }

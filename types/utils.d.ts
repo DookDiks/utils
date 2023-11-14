@@ -18,3 +18,5 @@ type AwesomeFunction = {
   async: AwesomeAsync
   sync: AwesomeSync
 };
+
+type AwesomeInstant = (options?: AwesomeOptions) => AwesomeFunction
