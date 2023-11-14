@@ -5,8 +5,6 @@ describe("test async awesome funtion", () => {
     return "Success"
   }
 
-  awesome("asdasd")
   it("should return success", async () => {
-    // expect()
   })
 })
