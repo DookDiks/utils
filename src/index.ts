@@ -1,4 +1,3 @@
-import { awesome, awesomeInstant } from "./handler/awesome"
-import { cn } from "./handler/cn"
+export { awesome, awesomeInstant, type AwesomeOptions, type CustomErrorOption } from "./handler/awesome"
+export { cn } from "./handler/cn"
 
-export { awesome, awesomeInstant, cn }

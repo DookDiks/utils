@@ -1,10 +1,18 @@
 /**
+ * Represents a function type for customizing error handling in the Awesome library.
+ * @typedef {function} CustomErrorOption
+ * @param {Error} err - The error to be customized.
+ * @returns {Error} - The customized error.
+ */
+export type CustomErrorOption = (err: Error) => Error;
+
+/**
  * Represents the options that can be provided to customize the behavior of the Awesome library.
  * @typedef {Object} AwesomeOptions
  * @property {function(Error): Error} [customError] - A function to customize error handling.
  */
-type AwesomeOptions = {
-  customError?: (err: Error) => Error;
+export type AwesomeOptions = {
+  customError?: CustomErrorOption
 };
 
 /**
