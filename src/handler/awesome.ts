@@ -1,139 +1,164 @@
 /**
- * Represents a function type for customizing error handling in the Awesome library.
- * @typedef {function} ErrorHandlerOption
- * @param {Error} err - The error to be customized.
- * @returns {Error} - The customized error.
+ * @module awesomeModule
  */
-export type ErrorHandlerOption = (err: Error) => Error;
 
-/**
- * Represents the options that can be provided to customize the behavior of the Awesome library.
- * @typedef {Object} AwesomeOptions
- * @property {function(Error): Error} [errorHandler] - A function to customize error handling.
- */
+import { errorParser, type ErrorType } from "@dookdiks/error";
+
+export type ErrorHandlerOption = (err: Error) => ErrorType;
+
 export type AwesomeOptions = {
-  errorHandler?: ErrorHandlerOption
+  errorHandler?: ErrorHandlerOption;
 };
 
 /**
- * Represents the asynchronous function signature of Awesome.
- * @typedef {function<T>} AwesomeAsync
- * @param {function(): Promise<T>} func - The asynchronous function to be executed.
- * @param {AwesomeOptions} [options] - Options to customize the behavior of the operation.
- * @returns {Promise<AwesomeResult<T>>} - A Promise resolving to the result of the operation.
+ * Represents an asynchronous function that can be used with the Awesome module.
+ *
+ * @template T - The type of data returned by the asynchronous function.
+ * @param {Function} func - The asynchronous function to execute.
+ * @param {AwesomeOptions} [options] - The options for the asynchronous operation.
+ * @returns {Promise<AwesomeResult<T>>} A promise that resolves to the result of the asynchronous operation.
+ * @typedef {AwesomeAsync}
  */
-type AwesomeAsync = <T>(
-  func: () => Promise<T>,
-  options?: AwesomeOptions
-) => Promise<AwesomeResult<T>>;
+type AwesomeAsync = <T>(func: () => Promise<T>, options?: AwesomeOptions) => Promise<AwesomeResult<T>>;
 
 /**
- * Represents the synchronous function signature of Awesome.
- * @typedef {function<T>} AwesomeSync
- * @param {function(): T} func - The synchronous function to be executed.
- * @param {AwesomeOptions} [options] - Options to customize the behavior of the operation.
- * @returns {AwesomeResult<T>} - The result of the operation.
+ * Represents a synchronous function that can be used with the Awesome module.
+ *
+ * @template T - The type of data returned by the synchronous function.
+ * @param {Function} func - The synchronous function to execute.
+ * @param {AwesomeOptions} [options] - The options for the synchronous operation.
+ * @returns {AwesomeResult<T>} The result of the synchronous operation.
+ * @typedef {AwesomeSync}
  */
-type AwesomeSync = <T>(
-  func: () => T,
-  options?: AwesomeOptions
-) => AwesomeResult<T>
+type AwesomeSync = <T>(func: () => T, options?: AwesomeOptions) => AwesomeResult<T>;
 
 /**
- * Represents the result of an Awesome operation.
- * @typedef {Object} AwesomeResult
- * @property {*} data - The data result of the operation.
- * @property {Error|null} error - The error, if any, that occurred during the operation.
+ * Represents the result of an operation with the Awesome module.
+ *
+ * @template T - The type of data returned by the operation.
+ * @typedef {AwesomeResult}
  */
-type AwesomeResult<T> = { data: T | null; error: Error | null };
+type AwesomeResult<T> = { data: T; error: null } | { data: null; error: ErrorType };
 
 /**
- * Represents the Awesome function, which includes both asynchronous and synchronous variants.
- * @typedef {Object} AwesomeFunction
- * @property {AwesomeAsync} async - The asynchronous variant of the Awesome function.
- * @property {AwesomeSync} sync - The synchronous variant of the Awesome function.
+ * Represents the functions provided by the Awesome module.
+ *
+ * @typedef {AwesomeFunction}
+ * @property {AwesomeAsync} async - The asynchronous function of the module.
+ * @property {AwesomeSync} sync - The synchronous function of the module.
  */
 type AwesomeFunction = {
-  async: AwesomeAsync
-  sync: AwesomeSync
+  async: AwesomeAsync;
+  sync: AwesomeSync;
 };
 
 /**
- * Represents a function that instantly creates an instance of the Awesome library with optional default options.
- * @typedef {function} AwesomeInstant
- * @param {AwesomeOptions} [options] - Default options for the Awesome library.
- * @returns {AwesomeFunction} - An instance of the Awesome library.
+ * Represents the function for instantiating the Awesome module.
+ *
+ * @typedef {AwesomeInstant}
+ * @param {AwesomeOptions} [options] - The default options for the module.
+ * @returns {AwesomeFunction} An object containing the asynchronous and synchronous functions.
  */
-type AwesomeInstant = (options?: AwesomeOptions) => AwesomeFunction
+type AwesomeInstant = (options?: AwesomeOptions) => AwesomeFunction;
+
 
 /**
- * The instantiator function for the Awesome library.
- * @type {AwesomeInstant}
+ * Handles errors and transforms them into an AwesomeResult object.
+ *
+ * @function
+ * @name handleError
+ * @param {unknown} err - The error object to handle.
+ * @param {ErrorHandlerOption} [errorHandler] - Custom error handling function.
+ * @returns {AwesomeResult<any>} The result object containing either data or an error.
+ */
+const handleError = (err: unknown, errorHandler?: ErrorHandlerOption): AwesomeResult<any> => {
+  if (err instanceof Error) {
+    return {
+      data: null,
+      error: errorHandler ? errorHandler(err) : errorParser(err),
+    };
+  }
+
+  return {
+    data: null,
+    error: new Error("internal error"),
+  };
+};
+
+/**
+ * Represents the function for instantiating the Awesome module.
+ *
+ * @function
+ * @name awesomeInstant
+ * @param {AwesomeOptions} [defaultOptions] - The default options for the module.
+ * @returns {AwesomeFunction} An object containing the asynchronous and synchronous functions.
+ * @typedef {AwesomeInstant}
  */
 const awesomeInstant: AwesomeInstant = (defaultOptions) => {
   /**
-  * Asynchronous implementation of the Awesome function.
-  * @type {AwesomeAsync}
-  */
-  const awesomeAsync: AwesomeAsync = async (func, options) => {
-    const option = options || defaultOptions
+   * Executes an asynchronous operation with error handling.
+   *
+   * @async
+   * @function
+   * @name awesomeAsync
+   * @param {Function} func - The asynchronous function to execute.
+   * @param {AwesomeOptions} [options] - The options for the asynchronous operation.
+   * @returns {Promise<AwesomeResult<any>>} A promise that resolves to the result of the asynchronous operation.
+   * @typedef {AwesomeAsync}
+   */
+  const awesomeAsync: AwesomeAsync = async (func, options = defaultOptions) => {
     try {
       const data = await func();
       return { data, error: null };
     } catch (err) {
-      if (err instanceof Error) {
-        return {
-          data: null,
-          error: option?.errorHandler ? option.errorHandler(err) : err,
-        };
-      }
-
-      return {
-        data: null,
-        error: new Error("internal error"),
-      };
+      return handleError(err, options?.errorHandler);
     }
   };
 
   /**
- * Synchronous implementation of the Awesome function.
- * @type {AwesomeSync}
- */
-  const awesomeSync: AwesomeSync = (func, options) => {
-    const option = options || defaultOptions
+   * Executes a synchronous operation with error handling.
+   *
+   * @function
+   * @name awesomeSync
+   * @param {Function} func - The synchronous function to execute.
+   * @param {AwesomeOptions} [options] - The options for the synchronous operation.
+   * @returns {AwesomeResult<any>} The result of the synchronous operation.
+   * @typedef {AwesomeSync}
+   */
+  const awesomeSync: AwesomeSync = (func, options = defaultOptions) => {
     try {
       const data = func();
       return { data, error: null };
     } catch (err) {
-      if (err instanceof Error) {
-        return {
-          data: null,
-          error: option?.errorHandler ? option.errorHandler(err) : err,
-        };
-      }
-
-      return {
-        data: null,
-        error: new Error("internal error"),
-      };
+      return handleError(err, options?.errorHandler);
     }
   };
 
   /**
- * An instance of the Awesome library with both asynchronous and synchronous variants.
- * @type {AwesomeFunction}
- */
+   * An object containing the asynchronous and synchronous functions of the Awesome module.
+   *
+   * @typedef {AwesomeFunction}
+   */
   const awesome: AwesomeFunction = {
     async: awesomeAsync,
-    sync: awesomeSync
-  }
-  return awesome
-}
+    sync: awesomeSync,
+  };
+
+  return awesome;
+};
 
 /**
- * Default instance of the Awesome library without any default options.
+ * The default instance of the Awesome module.
+ *
  * @type {AwesomeFunction}
  */
-const awesome = awesomeInstant()
+const awesome = awesomeInstant();
 
-export { awesomeInstant, awesome }
+/**
+ * Exports the Awesome module and its instantiation function.
+ *
+ * @exports awesomeInstant
+ * @exports awesome
+ */
+export { awesomeInstant, awesome };
+

@@ -1,31 +1,78 @@
-import { awesome, awesomeInstant, type AwesomeOptions } from '../src';
-describe("test async awesome funtion", () => {
+import { ErrorType } from "@dookdiks/error";
+import { awesomeInstant } from "../src";
 
-  const options: AwesomeOptions = {}
-  
-  const customAwesome = awesomeInstant(options)
+describe('Awesome Module Tests', () => {
+  // Mock data for testing
+  const mockData = 'Mock Data';
 
-  const asyncTestFunc = async () => {
-    return "Success"
-  }
+  // Mock asynchronous function
+  const asyncMockFunction = async () => {
+    return mockData;
+  };
 
-  const asyncTestFuncErr = async (err: string) => {
-    throw new Error(err)
-  }
+  // Mock synchronous function
+  const syncMockFunction = () => {
+    return mockData;
+  };
 
-  it("should return success - package", async () => {
-    expect(await awesome.async(asyncTestFunc)).toStrictEqual({ data: "Success", error: null })
-  })
+  // Mock asynchronous function that throws an error
+  const asyncErrorMockFunction = async () => {
+    throw new Error('Async Error');
+  };
 
-  it("should return success - custom", async () => {
-    expect(await customAwesome.async(asyncTestFunc)).toStrictEqual({ data: "Success", error: null })
-  })
+  // Mock synchronous function that throws an error
+  const syncErrorMockFunction = () => {
+    throw new Error('Sync Error');
+  };
 
-  it("should return error - package", async () => {
-    expect(await awesome.async(() => asyncTestFuncErr("error"))).toStrictEqual({ data: null, error: new Error("error") })
-  })
+  // Mock errorHandler for testing
+  const mockErrorHandler = (err: Error): ErrorType => {
+    return {
+      message: err.message,
+    };
+  };
 
-  it("should return error - custom", async () => {
-    expect(await customAwesome.async(() => asyncTestFuncErr("error"))).toStrictEqual({ data: null, error: new Error("error") })
-  })
-})
+  it('should handle successful asynchronous execution', async () => {
+    const awesome = awesomeInstant();
+    const result = await awesome.async(asyncMockFunction);
+
+    expect(result).toEqual({
+      data: mockData,
+      error: null,
+    });
+  });
+
+  it('should handle successful synchronous execution', () => {
+    const awesome = awesomeInstant();
+    const result = awesome.sync(syncMockFunction);
+
+    expect(result).toEqual({
+      data: mockData,
+      error: null,
+    });
+  });
+
+  it('should handle asynchronous execution with error and custom errorHandler', async () => {
+    const awesome = awesomeInstant({ errorHandler: mockErrorHandler });
+    const result = await awesome.async(asyncErrorMockFunction);
+
+    expect(result).toEqual({
+      data: null,
+      error: {
+        message: 'Async Error',
+      },
+    });
+  });
+
+  it('should handle synchronous execution with error and custom errorHandler', () => {
+    const awesome = awesomeInstant({ errorHandler: mockErrorHandler });
+    const result = awesome.sync(syncErrorMockFunction);
+
+    expect(result).toEqual({
+      data: null,
+      error: {
+        message: 'Sync Error',
+      },
+    });
+  });
+});
