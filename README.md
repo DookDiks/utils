@@ -5,6 +5,15 @@
 
 DukDik is a lightweight utility library that provides helpful functions for common tasks. The library currently includes two main functions: `awesome` and `cn`.
 
+## Wallaby.js
+
+[![Wallaby.js](https://img.shields.io/badge/wallaby.js-powered-blue.svg?style=for-the-badge&logo=github)](https://wallabyjs.com/oss/)
+
+This repository contributors are welcome to use
+[Wallaby.js OSS License](https://wallabyjs.com/oss/) to get
+test results immediately as you type, and see the results in
+your editor right next to your code.
+
 ## Installation
 
 To use DukDik in your project, you can install it via npm:
