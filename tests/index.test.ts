@@ -1,5 +1,5 @@
 import { ErrorType } from "@dookdiks/error";
-import { awesomeInstant } from "../src"
+import { awesomeInstant } from "@dookdils/utils"
 
 describe('Awesome Module Tests', () => {
   // Mock data for testing
