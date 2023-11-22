@@ -43,10 +43,7 @@ type FetchOptions = Omit<RequestInit, "body"> & {
  * @property {unknown} body - The response body.
  * @property {boolean} error - Indicates if an error occurred during the request.
  */
-type AwesomeFetch = (url: string, fetchOptions?: FetchOptions, options?: AwesomeOptions) => Promise<AwesomeResult<{
-  body: unknown;
-  error: boolean;
-}>>;
+type AwesomeFetch = (url: string, fetchOptions?: FetchOptions, options?: AwesomeOptions) => Promise<AwesomeResult<unknown>>;
 
 /**
  * Represents a synchronous function that can be used with the Awesome module.
@@ -104,6 +101,12 @@ const handleError = (err: unknown, errorHandler?: ErrorHandlerOption): AwesomeRe
     return {
       data: null,
       error: errorHandler ? errorHandler(err) : errorParser(err),
+    };
+  }
+  if (err instanceof String) {
+    return {
+      data: null,
+      error: new Error(err as string),
     };
   }
 
@@ -192,6 +195,8 @@ const awesomeInstant: AwesomeInstant = (defaultOptions) => {
 
       const fetchResponse = await fetch(fetchRequest)
       const ok = fetchResponse.ok
+
+      if (!ok) return handleError("Error", options?.errorHandler)
 
       const returnValue = {
         body: await fetchResponse.json(),
