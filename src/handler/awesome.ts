@@ -166,23 +166,16 @@ const awesomeInstant: AwesomeInstant = (defaultOptions) => {
   };
 
   /**
- * Fetches data using the AwesomeFetch function.
- *
- * @function
- * @async
- * @param {string} url - The URL to which the request is made.
- * @param {FetchOptions} [fetchOptions={}] - Options for the Fetch API and the AwesomeFetch function.
- * @param {AwesomeOptions} [options] - Additional options specific to the 'AwesomeFetch' function.
- * @returns {Promise<{ data: AwesomeResult, error: null } | { data: null, error: any }>} A Promise that resolves to an object containing either the fetched data and a null error, or null data and an error object.
- *
- * @throws {Error} If an error occurs during the fetch operation.
- *
- * @example
- * // Basic usage:
- * const result = await fetchData("https://example.com/api/data");
- * console.log(result.data); // Fetched data
- * console.log(result.error); // Null or error object
- */
+   * Executes a Fetch request with error handling.
+   *
+   * @function
+   * @name fetchData
+   * @param {string} url - The URL to which the request is made.
+   * @param {FetchOptions} [fetchOptions] - Options for the Fetch API.
+   * @param {AwesomeOptions} [options] - Additional options specific to the 'AwesomeFetch' function.
+   * @returns {Promise<AwesomeResult<any>>} A promise that resolves to the result of the asynchronous operation.
+   * @typedef {AwesomeFetch}
+   */
   const fetchData: AwesomeFetch = async (url, fetchOptions = {}, options) => {
     try {
       const { body, method = "GET", ...restOptions } = fetchOptions
@@ -196,12 +189,10 @@ const awesomeInstant: AwesomeInstant = (defaultOptions) => {
       const fetchResponse = await fetch(fetchRequest)
       const ok = fetchResponse.ok
 
-      if (!ok) return handleError("Error", options?.errorHandler)
+      if (!ok) throw handleError("Error", options?.errorHandler)
 
-      const returnValue = {
-        body: await fetchResponse.json(),
-        error: !ok
-      }
+      const returnValue = await fetchResponse.json()
+
       return { data: returnValue, error: null }
     } catch (err) {
       return handleError(err, options?.errorHandler);
