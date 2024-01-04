@@ -166,7 +166,7 @@ const awesomeInstant: AwesomeInstant = (defaultOptions) => {
   };
 
   /**
-   * Executes a Fetch request with error handling.
+   * Executes a Fetch request with error helping function.
    *
    * @function
    * @name fetchData
